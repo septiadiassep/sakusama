@@ -50,6 +50,8 @@
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
 
     <script src="{{ asset('sneat-v3.0.0') }}/assets/js/config.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
   </head>
 
   <body>
@@ -91,15 +93,6 @@
     </div>
     <!-- / Layout wrapper -->
 
-    <div class="buy-now">
-      <a
-        href="https://themeselection.com/item/sneat-dashboard-pro-bootstrap/"
-        target="_blank"
-        class="btn btn-danger btn-buy-now"
-        >Upgrade to Pro</a
-      >
-    </div>
-
     <!-- Core JS -->
 
     <script src="{{ asset('sneat-v3.0.0') }}/assets/vendor/libs/jquery/jquery.js"></script>
@@ -125,5 +118,15 @@
 
     <!-- Place this tag before closing body tag for github widget button. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const toastLiveExample = document.getElementById('liveToast');
+        if (toastLiveExample) {
+          const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+          toastBootstrap.show();
+        }
+      });
+    </script>
   </body>
 </html>
