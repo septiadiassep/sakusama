@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User as UserModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class UserController extends Controller
 {
@@ -11,7 +13,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('user.user_index');
+        $users = UserModel::all();
+        return view('user.user_index', compact('users'));
     }
 
     /**
@@ -27,7 +30,25 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required|min:8'
+            ]);
+
+            $user = new UserModel();
+            $user->name = $validated['name'];
+            $user->email = $validated['email'];
+            $user->password = bcrypt($request->input('password')); 
+            $user->email_verified_at = Carbon::now();
+            $user->remember_token = \Illuminate\Support\Str::random(10);
+            $user->save();
+
+            return redirect()->route('user.index')->with('success', 'Data user berhasil disimpan!');
+        } catch (\Throwable $e) {
+            return redirect()->route('user.index')->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -59,6 +80,8 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        UserModel::findOrFail($id)->delete();
+
+        return redirect()->route('user.index')->with('success', 'User deleted successfully!');
     }
 }
