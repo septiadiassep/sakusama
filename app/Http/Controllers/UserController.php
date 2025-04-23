@@ -11,9 +11,17 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = UserModel::all();
+        $search = $request->input('search');
+        if ($search) {
+            $users = UserModel::where('name', 'like', "%$search%")
+                ->orWhere('email', 'like', "%$search%")
+                ->get();
+        } else {
+            $users = UserModel::all();
+        }
+
         return view('user.user_index', compact('users'));
     }
 

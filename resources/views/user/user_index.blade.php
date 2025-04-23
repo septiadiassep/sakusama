@@ -103,7 +103,8 @@
   <div class="card">
     <div class="card-header footer-container d-flex align-items-center justify-content-between flex-md-row flex-column">
             <div>
-              <h3 class="mt-4">Data User</h3>
+              <h3 class="mt-4"><strong>Data User</strong></h3>
+              <p class="text-secondary" style="margin-top: -20px">Manage Data User</p>
             </div>
             <div class="d-none d-lg-inline-block">
               <button @click="openadd = !openadd" type="button" class="btn btn-primary">
@@ -117,38 +118,51 @@
         </div>
     <div class="card-body">
       <div class="table-responsive text-nowrap">
-        <table class="table">
-          <thead>
+        <form action="{{ route('user.index') }}" method="GET">
+          @csrf
+          <div class="mb-5">
+            <input
+              name="search"
+              type="text"
+              class="form-control"
+              id="basic-icon-default-fullname"
+              placeholder="Ketikan pencarian data user"
+              value="{{ request('search') }}" 
+              onkeydown="if(event.key === 'Enter'){ this.form.submit(); }" />
+          </div>
+        </form>
+        <table class="table table-striped">
+          <thead style="padding-top: 10px; padding-bottom: 10px;">
             <tr>
-              <th>No</th>
-              <th>Nama User</th>
-              <th>Password</th>
-              <th>Email</th>
-              <th>Created at</th>
-              <th style="text-align: right;">Actions</th>
+              <th style="padding-top: 10px; padding-bottom: 10px; text-align:center">No</th>
+              <th style="padding-top: 10px; padding-bottom: 10px;">Nama User</th>
+              <th style="padding-top: 10px; padding-bottom: 10px;">Password</th>
+              <th style="padding-top: 10px; padding-bottom: 10px;">Email</th>
+              <th style="padding-top: 10px; padding-bottom: 10px;">Created at</th>
+              <th style="text-align: right; padding-top: 10px; padding-bottom: 10px;">Actions</th>
             </tr>
           </thead>
           <tbody class="table-border-bottom-0">
-            @foreach ($users as $user)
+            @forelse ($users as $user)
             <tr>
-              <td>
+              <td style="padding-top: 10px; padding-bottom: 10px; text-align: center;">
                 {{ $loop->iteration }}
               </td>
-              <td>
+              <td style="padding-top: 10px; padding-bottom: 10px;">
                 {{ $user->name }}
               </td>
-              <td>
+              <td style="padding-top: 10px; padding-bottom: 10px;">
                 {{ Str::limit($user->password, 10) }}
               </td>
-              <td>
+              <td style="padding-top: 10px; padding-bottom: 10px;">
                 {{ $user->email }}{!! $user->email_verified_at != null 
                                                                 ? ' <span class="badge text-bg-primary">verified</span>' 
                                                                 : ' <span class="badge text-bg-light">not verified</span>' !!}
               </td>
-              <td>
+              <td style="padding-top: 10px; padding-bottom: 10px;">
                 {{ $user->created_at }}
               </td>
-              <td style="text-align: right; vertical-align: right;">
+              <td style="text-align: right; vertical-align: right; padding-top: 10px; padding-bottom: 10px;">
                 <button type="button" class="btn btn-danger btn-md" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal{{ $user->id }}"><i class='bx bxs-trash' ></i></button>
                 <a href="{{ route('user.edit', $user->id) }}" type="button" class="btn btn-warning btn-md"><i class='bx bxs-edit-alt' ></i></a>
 
@@ -179,7 +193,12 @@
                 </div>
               </td>
             </tr>
-            @endforeach
+            @empty
+            <tr>
+              <td colspan="6" style="text-align: center;">
+                Data tidak ditemukan
+              </td>
+            @endforelse
           </tbody>
         </table>
       </div>
