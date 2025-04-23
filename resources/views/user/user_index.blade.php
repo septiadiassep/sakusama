@@ -141,14 +141,16 @@
                 {{ Str::limit($user->password, 10) }}
               </td>
               <td>
-                {{ $user->email }}
+                {{ $user->email }}{!! $user->email_verified_at != null 
+                                                                ? ' <span class="badge text-bg-primary">verified</span>' 
+                                                                : ' <span class="badge text-bg-light">not verified</span>' !!}
               </td>
               <td>
                 {{ $user->created_at }}
               </td>
               <td style="text-align: right; vertical-align: right;">
                 <button type="button" class="btn btn-danger btn-md" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal{{ $user->id }}"><i class='bx bxs-trash' ></i></button>
-                <button type="button" class="btn btn-warning btn-md"><i class='bx bxs-edit-alt' ></i></button>
+                <a href="{{ route('user.edit', $user->id) }}" type="button" class="btn btn-warning btn-md"><i class='bx bxs-edit-alt' ></i></a>
 
                 <!-- Modal -->
                 <div class="modal fade" id="confirmDeleteModal{{ $user->id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
