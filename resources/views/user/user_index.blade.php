@@ -92,7 +92,7 @@
           </div>
           <div class="row justify-content-end">
             <div class="col-sm-10">
-              <button type="submit" class="btn btn-primary"><i class='bx bxs-save' ></i>&nbsp;&nbsp; Simpan</button>
+              <button type="submit" class="btn btn-primary"><i class='bx bxs-save' ></i>&nbsp;&nbsp; Simpan Data</button>
             </div>
           </div>
         </form>
