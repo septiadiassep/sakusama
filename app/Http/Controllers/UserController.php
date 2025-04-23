@@ -41,8 +41,8 @@ class UserController extends Controller
             $user->name = $validated['name'];
             $user->email = $validated['email'];
             $user->password = bcrypt($request->input('password')); 
-            $user->email_verified_at = Carbon::now();
-            $user->remember_token = \Illuminate\Support\Str::random(10);
+            // $user->email_verified_at = Carbon::now();
+            // $user->remember_token = \Illuminate\Support\Str::random(10);
             $user->save();
 
             return redirect()->route('user.index')->with('success', 'Data user berhasil disimpan!');
@@ -62,17 +62,38 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $user = UserModel::findOrFail($id);
+        return view('user.user_edit', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'password' => 'nullable|min:6', // Password boleh kosong
+        ]);
+
+        try {
+            $user = UserModel::findOrFail($id);
+
+            $user->name = $validated['name'];
+            $user->email = $validated['email'];
+
+            if (!empty($validated['password'])) {
+                $user->password = bcrypt($request->input('password')); 
+            }
+            $user->save();
+
+            return redirect()->route('user.index')->with('success', 'Data berhasil diperbarui!');
+        } catch (\Exception $e) {
+            return redirect()->route('user.index')->with('error', $e->getMessage());
+        }
     }
 
     /**
