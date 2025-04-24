@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User as UserModel;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 
 class UserController extends Controller
 {
@@ -109,8 +109,20 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        UserModel::findOrFail($id)->delete();
+        try {
+            UserModel::findOrFail($id)->delete();
 
-        return redirect()->route('user.index')->with('success', 'User deleted successfully!');
+            return redirect()->route('user.index')->with('success', 'User deleted successfully!');
+        } catch (QueryException $e) {
+            $message = $e->getMessage();
+
+            if (strpos($message, 'foreign key constraint fails') !== false) {
+                $pesanErorr = "Tidak dapat menghapus data karena memiliki relasi dengan data lain.";
+            } else {
+                $pesanErorr = "Terjadi kesalahan " . $message;
+            }
+            return redirect()->route('user.index')->with('error', $pesanErorr);
+
+        }
     }
 }
