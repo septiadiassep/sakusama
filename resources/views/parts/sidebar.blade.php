@@ -66,7 +66,7 @@
 
     <ul class="menu-inner py-1">
     <!-- Dashboards -->
-    <li class="menu-item active open">
+    <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-home-smile"></i>
         <div class="text-truncate" data-i18n="Dashboards">Dashboards</div>
@@ -208,10 +208,21 @@
     <li class="menu-header small text-uppercase">
         <span class="menu-header-text">User Management</span>
     </li>
-    <li class="menu-item active">
+    <li class="menu-item {{ request()->routeIs('user.*') ? 'active' : '' }}">
         <a href="{{ route('user.index') }}" class="menu-link">
         <i class="menu-icon tf-icons bx bx-user"></i>
         <div class="text-truncate" data-i18n="Basic">Data User</div>
+        </a>
+    </li>
+
+    <!-- Money Management -->
+    <li class="menu-header small text-uppercase">
+        <span class="menu-header-text">Money Management</span>
+    </li>
+    <li class="menu-item {{ request()->routeIs('finance.*') ? 'active' : '' }}">
+        <a href="{{ route('finance.index') }}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-wallet"></i>    
+        <div class="text-truncate" data-i18n="Basic">Data Keuangan</div>
         </a>
     </li>
 

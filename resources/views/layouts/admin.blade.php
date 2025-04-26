@@ -128,5 +128,48 @@
         }
       });
     </script>
+
+    <script>
+      function setCurrentDateTime() {
+        const now = new Date();
+        const offset = now.getTimezoneOffset();
+        const localISOTime = new Date(now.getTime() - offset * 60000).toISOString().slice(0,16);
+        document.getElementById('datetime').value = localISOTime;
+      }
+
+      // Panggil saat halaman dimuat
+      setCurrentDateTime();
+
+      // Optional: update setiap detik (real-time)
+      setInterval(setCurrentDateTime, 1000);
+    </script>
+
+    <script>
+      const textarea = document.querySelector('.auto-resize');
+
+      textarea.addEventListener('input', function () {
+        this.style.height = 'auto';
+        this.style.height = this.scrollHeight + 'px';
+      });
+    </script>
+
+    <script>
+const input = document.getElementById('rupiahInput');
+
+input.addEventListener('input', function (e) {
+  // Ambil angka asli tanpa titik
+  let numberValue = this.value.replace(/\D/g, '');
+
+  // Batasi maksimal 100.000.000
+  if (parseInt(numberValue) > 100000000) {
+    numberValue = '100000000';
+  }
+
+  // Format angka jadi ada titik
+  let formattedValue = numberValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+  this.value = formattedValue;
+});
+    </script>
   </body>
 </html>

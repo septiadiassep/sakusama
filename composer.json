@@ -26,7 +26,10 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Helpers/FormatRupiah.php"
+            "app/Helpers/FormatRupiah.php",
+            "app/Helpers/FormatTanggal.php",
+            "app/Helpers/FormatRupiahToMilion.php",
+            "app/Helpers/FormatDateSafeDb.php"
         ]
     },
     "autoload-dev": {

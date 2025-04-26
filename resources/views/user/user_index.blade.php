@@ -131,7 +131,7 @@
               onkeydown="if(event.key === 'Enter'){ this.form.submit(); }" />
           </div>
         </form>
-        <table class="table table-striped">
+        <table class="table table-striped table-bordered">
           <thead style="padding-top: 10px; padding-bottom: 10px;">
             <tr>
               <th style="padding-top: 10px; padding-bottom: 10px; text-align:center">No</th>
