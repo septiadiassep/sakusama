@@ -18,3 +18,4 @@ Route::get('/finance', [FinanceController::class, 'index'])->name('finance.index
 Route::post('/finance/store', [FinanceController::class, 'store'])->name('finance.store');
 Route::get('/finance/{id}/edit', [FinanceController::class, 'edit'])->name('finance.edit');
 Route::delete('/finance/{id}', [FinanceController::class, 'destroy'])->name('finance.destroy');
+Route::put('/finance/{id}', [FinanceController::class, 'update'])->name('finance.update');

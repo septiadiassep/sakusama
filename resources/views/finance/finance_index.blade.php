@@ -9,7 +9,7 @@
   <div class="card mb-5">
     <div class="card-header footer-container d-flex align-items-center justify-content-between flex-md-row flex-column">
       <div>
-        <h3 class="mt-4"><strong>Data Keuangan</strong></h3>
+        <h3 class="mt-2"><strong>Data Keuangan</strong></h3>
         <p class="text-secondary" style="margin-top: -20px">Manage Data Keuangan</p>
       </div>
       <div class="d-none d-lg-inline-block">
@@ -144,23 +144,29 @@
   <div class="col-xxl mb-5" x-show="openItem === 'addIncome'">
     <div class="card">
       <div class="card-header d-flex align-items-center justify-content-between">
-        <h5 class="mb-0">Tambah Pemasukan</h5>
-        <a @click="openItem = (openItem === 'addIncome' ? null : 'addIncome')" style="font-style: italic; cursor: pointer; color: red">Batalkan tambah transaksi</a>
+        <h4>Tambah Transaksi</h4>
       </div>
-      <div class="card-body">
-        <form action="{{ route('finance.store') }}" method="POST">
+      <div class="card-body" style="margin-top: -20px">
+        <form id="formAddIncome" action="{{ route('finance.store') }}" method="POST">
           @csrf
           <div class="row mb-6">
             <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Tanggal Proses</label>
-            <div class="col-sm-10">
-              <div class="input-group input-group-merge">
-                <span class="input-group-text" style="background-color: rgb(242, 243, 244);"><i class="icon-base bx bx-calendar"></i></span>
-                <input type="datetime-local" class="form-control" id="datetime" name="tanggal_proses" style="background-color: rgb(242, 243, 244);" readonly>
+            <div class="col-sm-10" >
+              <div class="row g-2">
+                  <div class="col-3">
+                      <input class="form-control" id="tgl_proses" type="date" name="tanggal_proses"/>
+                  </div>
+                  <div class="col-3" style="margin-right: 5px">
+                      <input type="text" id="wkt_proses" name="waktu" class="form-control" placeholder="HH:mm:ss" pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}">
+                  </div>
+                  <div class="col-3">
+                      <a id="ambilWaktu" type="button" class="btn btn-primary text-white"><i class='icon-base bx bx-refresh'></i>Ambil Waktu Saat Ini</a>
+                  </div>
               </div>
             </div>
           </div>
           <div class="row mb-6">
-            <label class="col-sm-2 col-form-label" for="basic-icon-default-company">Detail Pengeluaran</label>
+            <label class="col-sm-2 col-form-label">Detail Transaksi</label>
             <div class="col-sm-10">
               <div>
                 <textarea
@@ -230,8 +236,8 @@
           </div>
           <div class="row justify-content-end">
             <div class="col-sm-10">
-              <button type="submit" class="btn btn-primary"><i class='bx bx-money-withdraw' ></i>&nbsp;&nbsp; Simpan Pemasukan</button>
-              <button type="reset" class="btn btn-secondary"><i class='bx bx-eraser' ></i>&nbsp;&nbsp; Reset</button>
+              <button type="submit" class="btn btn-primary"  style="margin-right: 6px"><i class='bx bx-money-withdraw' ></i>&nbsp;&nbsp; Simpan Pemasukan</button>
+              <button type="reset" class="btn btn-secondary"><i class='icon-base bx bx-eraser' ></i>&nbsp;&nbsp; Reset</button>
             </div>
           </div>
         </form>
@@ -268,7 +274,7 @@
           </thead>
           <tbody class="table-border-bottom-0" style="font-size: 13px">
             @forelse($finance as $item)
-              <tr onclick="window.location='{{ route('finance.index') }}'" style="cursor: pointer;" class="hover:underline hover:text-blue-600">
+              <tr onclick="window.location='{{ route('finance.edit', $item->id) }}'" style="cursor: pointer;" class="hover:underline hover:text-blue-600">
                 <td style="padding-top: 10px; padding-bottom: 10px; text-align: center;">
                   {{ $loop->iteration }}
                 </td>
@@ -295,9 +301,9 @@
                 </td>
                 <td style="text-align: right; padding-top: 10px; padding-bottom: 10px;">
                   @if($item->kategori === 'Pemasukan')
-                    {{ formatRupiah($item->jumlah_rupiah) }}
+                    Rp{{ formatRupiah($item->jumlah_rupiah) }}
                     @else
-                    - {{ formatRupiah($item->jumlah_rupiah) }}
+                    - Rp{{ formatRupiah($item->jumlah_rupiah) }}
                   @endif
                 </td>
               </tr>
@@ -313,9 +319,5 @@
       </div>
     </div>
   </div>
-  <!--/ Basic Bootstrap Table -->
-
-
-
 </div>
 @endsection
