@@ -17,12 +17,23 @@ class Finance extends Model
         'tgl_proses',
         'id_pencatat',
         'jumlah_rupiah',
-        'kategori',
-        'sub_kategori',
+        'id_kategori',
+        'id_sub_kategori',
+        'detail'
     ];
 
     public function pencatat(): BelongsTo
     {
         return $this->belongsTo(User::class, 'id_pencatat', 'id');
+    }
+
+    public function finance(): BelongsTo
+    {
+        return $this->belongsTo(Kategori::class, 'id_kategori', 'id');
+    }
+    
+    public function subkat2finance(): BelongsTo
+    {
+        return $this->belongsTo(SubKategori::class, 'id_sub_kategori', 'id');
     }
 }
