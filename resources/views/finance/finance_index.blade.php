@@ -299,7 +299,7 @@
                 <td style="padding-top: 10px; padding-bottom: 10px;">
                   {{ $item->pencatat->name }}
                 </td>
-                <td style="text-align: right; padding-top: 10px; padding-bottom: 10px;">
+                <td style="text-align: right; padding-top: 10px; padding-bottom: 10px;" class="{{ $item->kategori === 'Pengeluaran' ? 'text-danger' : '' }}">
                   @if($item->kategori === 'Pemasukan')
                     Rp{{ formatRupiah($item->jumlah_rupiah) }}
                     @else
