@@ -1,0 +1,56 @@
+Table users {
+  id bigint(20) [primary key]
+  name varchar(255)
+  password varchar(255)
+  email varchar(255)
+  id_role bigint(20)
+  email_verified_at timestamp
+  remember_token varchar(100)
+  created_at timestamp
+  update_at timestamp
+}
+
+Table role {
+  id bigint(20)
+  role varchar(255)
+  deskripsi	varchar(255)
+  created_at timestamp
+  update_at timestamp
+}
+
+Table finance {
+  id bigint(20)
+  tgl_proses datetime
+  id_pencatat	bigint(20)
+  jumlah_rupiah	int(11)
+  id_kategori	bigint(20)
+  id_sub_kategori	bigint(20)
+  detail varchar(255)
+  created_at timestamp
+  update_at	timestamp
+  delete_at timestamp
+}
+
+Table kategori {
+  id bigint(20)
+  kategori varchar(255)
+  created_at timestamp
+  update_at timestamp
+}
+
+Table sub_kategori {
+  id bigint(20)
+  sub_kategori varchar(255)
+  created_at timestamp
+  update_at timestamp
+}
+
+Ref: "role"."id" < "users"."id_role"
+
+Ref: "users"."id" < "finance"."id_pencatat"
+
+Ref: "kategori"."id" < "finance"."id_kategori"
+
+Ref: "sub_kategori"."id" < "finance"."id_sub_kategori"
+
+Source: https://dbdiagram.io/d/Database-Sukasama-V1-0-68195a7b1ca52373f5931761

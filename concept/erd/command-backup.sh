@@ -1,0 +1,1 @@
+sudo /Applications/XAMPP/xamppfiles/bin/mysqldump -u root -p db_sakusama > backup-19-05-2025.sql
