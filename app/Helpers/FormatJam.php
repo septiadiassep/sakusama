@@ -2,7 +2,7 @@
 
 use Carbon\Carbon;
 
-function getTimeParts($datetime)
+function formatJam($datetime)
 {
     return Carbon::parse($datetime)->format('H:i:s');
 }
