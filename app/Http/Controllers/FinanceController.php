@@ -21,24 +21,29 @@ class FinanceController extends Controller
             $finance = FinanceModel::whereHas('pencatat', function ($query) use ($search) {
                 $query->where('name', 'like', "%$search%");
             })
-            ->orWhere('kategori', 'like', "%$search%")
-            ->orWhere('sub_kategori', 'like', "%$search%")
+            ->orWhereHas('finance', function ($query) use ($search) {
+                $query->where('kategori', 'like', "%$search%");
+            })
+            ->orWhereHas('subkat2finance', function ($query) use ($search) {
+                $query->where('sub_kategori', 'like', "%$search%");
+            })
             ->orWhere('detail', 'like', "%$search%")
             ->get();
 
-            $total_pemasukan = FinanceModel::where('kategori', 'Pemasukan')->sum('jumlah_rupiah');
-            $total_pengeluaran = FinanceModel::where('kategori', 'Pengeluaran')->sum('jumlah_rupiah');
-            $balance_now = $total_pemasukan - $total_pengeluaran;
         } else {
             $finance = FinanceModel::with('pencatat')->get(); 
-            $total_pemasukan = FinanceModel::where('kategori', 'Pemasukan')->sum('jumlah_rupiah');
-            $total_pengeluaran = FinanceModel::where('kategori', 'Pengeluaran')->sum('jumlah_rupiah');
-            $balance_now = $total_pemasukan - $total_pengeluaran;
         }
+
+        $total_pemasukan = FinanceModel::where('id_kategori', 1)->sum('jumlah_rupiah');
+        $total_pengeluaran = FinanceModel::where('id_kategori', 2)->sum('jumlah_rupiah');
+        $balance_now = $total_pemasukan - $total_pengeluaran;
+
         $users = User::select('id', 'name')->orderBy('name', 'asc')->get();
+        
         $kategoriTransaksi = DB::table('finance')
+                            ->join('sub_kategori', 'finance.id_sub_kategori', '=', 'sub_kategori.id')
                             ->distinct()
-                            ->pluck('sub_kategori');
+                            ->pluck('sub_kategori.sub_kategori');
         
         return view('finance.finance_index', compact('finance', 'total_pemasukan', 'total_pengeluaran', 'users', 'balance_now', 'kategoriTransaksi'));
     }
@@ -104,10 +109,11 @@ class FinanceController extends Controller
         $user = User::find($finance->id_pencatat);
         $id_user = User::find($finance->id);
 
-        $kategoriTransaksi = DB::table('finance') 
+        $kategoriTransaksi = DB::table('finance')
+                    ->join('sub_kategori', 'finance.id_sub_kategori', '=', 'sub_kategori.id')
                     ->distinct()
                     ->whereNull('deleted_at')
-                    ->pluck('sub_kategori');
+                    ->pluck('sub_kategori.sub_kategori');
         return view('finance.finance_detail', compact('finance', 'tanggalProses', 'waktuProses', 'user', 'users', 'id_user', 'kategoriTransaksi'));
     }
 

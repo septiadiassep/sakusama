@@ -266,7 +266,7 @@
           <thead style="padding-top: 10px; padding-bottom: 10px;">
             <tr>
               <th style="padding-top: 10px; padding-bottom: 10px; text-align:center">#</th>
-              <th style="padding-top: 10px; padding-bottom: 10px;">Tanggal</th>
+              <th style="padding-top: 10px; padding-bottom: 10px;">Tanggal Transaksi</th>
               <th style="padding-top: 10px; padding-bottom: 10px; width: 60%">Detail Transaksi</th>
               <th style="padding-top: 10px; padding-bottom: 10px;">Pencatat</th>
               <th style="text-align: right; padding-top: 10px; padding-bottom: 10px;">Jumlah Nominal</th>
@@ -279,13 +279,13 @@
                   {{ $loop->iteration }}
                 </td>
                 <td style="padding-top: 10px; padding-bottom: 10px;">
-                  {{ formatTanggal($item->tgl_proses) }}
+                  {{ formatTanggal($item->tgl_proses) . ' ' . formatJam($item->tgl_proses) }}
                 </td>
                 <td style="padding-top: 10px; padding-bottom: 10px;">
                   <div style="display: flex; justify-content: space-between;">
                     <div>{{ $item->detail }} </div>
                     <div>
-                      @if ($item->kategori === 'Pemasukan')
+                      @if ($item->id_kategori === 1)
                         <span class="badge bg-label-primary">Pemasukan</span>
                       @else
                         <span class="badge bg-label-danger">Pengeluaran</span>
@@ -299,8 +299,9 @@
                 <td style="padding-top: 10px; padding-bottom: 10px;">
                   {{ $item->pencatat->name }}
                 </td>
-                <td style="text-align: right; padding-top: 10px; padding-bottom: 10px;" class="{{ $item->kategori === 'Pengeluaran' ? 'text-danger' : '' }}">
-                  @if($item->kategori === 'Pemasukan')
+                {{-- {{ dd($item) }} --}}
+                <td style="text-align: right; padding-top: 10px; padding-bottom: 10px;" class="{{ $item->id_kategori === 2 ? 'text-danger' : '' }}">
+                  @if($item->id_kategori === 1)
                     Rp{{ formatRupiah($item->jumlah_rupiah) }}
                     @else
                     - Rp{{ formatRupiah($item->jumlah_rupiah) }}

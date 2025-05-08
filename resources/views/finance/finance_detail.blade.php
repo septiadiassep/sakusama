@@ -4,6 +4,7 @@
 
 @section('content')
 <div class="container-xxl container-p-y">
+    <a href="{{ route('finance.index') }}" type="button" class="btn btn-primary btn-md mb-5"><i class='bx bx-arrow-back' ></i>&nbsp;&nbsp;Kembali</a>&nbsp;
     <button type="button" class="btn btn-light text-danger btn-md mb-5" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal{{ $finance->id }}"><i class='bx bxs-trash' ></i>&nbsp;&nbsp;Hapus Data </button>
 
     <!-- Modal -->
@@ -112,8 +113,8 @@
                                     <span class="input-group-text"><i class="icon-base bx bx-category"></i></span>
                                     <select name="tipe_transaksi" class="form-control">
                                         <option value="">Pilih Tipe Transaksi</option>
-                                        <option value="Pemasukan" {{ $finance->kategori == 'Pemasukan' ? 'selected' : '' }}>Pemasukan</option>
-                                        <option value="Pengeluaran" {{ $finance->kategori == 'Pengeluaran' ? 'selected' : '' }}>Pengeluaran</option>
+                                        <option value="Pemasukan" {{ $finance->id_kategori == 1 ? 'selected' : '' }}>Pemasukan</option>
+                                        <option value="Pengeluaran" {{ $finance->id_kategori == 2 ? 'selected' : '' }}>Pengeluaran</option>
                                     </select>
                                 </div>
                             </div>

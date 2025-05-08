@@ -30,7 +30,8 @@
             "app/Helpers/FormatRupiah.php",
             "app/Helpers/FormatTanggal.php",
             "app/Helpers/FormatRupiahToMilion.php",
-            "app/Helpers/FormatDateSafeDb.php"
+            "app/Helpers/FormatDateSafeDb.php",
+            "app/Helpers/FormatJam.php"
         ]
     },
     "autoload-dev": {
